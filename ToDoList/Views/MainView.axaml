@@ -1,0 +1,165 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:ToDoList.ViewModels"
+             xmlns:model="using:ToDoList.Model"
+             xmlns:System="clr-namespace:System;assembly=System.Runtime"
+             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="800"
+             x:Class="ToDoList.Views.MainView"
+             x:DataType="vm:MainViewModel">
+    
+  <Design.DataContext>
+    <vm:MainViewModel />
+  </Design.DataContext>
+    
+    <Grid Name="RootGrid" RowDefinitions="*, Auto">
+        <Border Grid.Row="0" Grid.RowSpan="2" Background="Black" Opacity="0.5"
+                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                ZIndex="100" IsVisible="{Binding IsVisible}"
+                PointerPressed="Cancel"/>
+        
+        <Button Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Right"
+                Margin="25"
+                Command="{Binding NewToggleCommand}">
+            <StackPanel Orientation="Horizontal">
+                <Label Classes="icon" Content="&#xE3D6;" FontSize="30"/>
+                <Label Content="Add Task" FontSize="23"/>
+            </StackPanel>
+        </Button>
+    
+        <ScrollViewer Grid.Row="0">
+            <ItemsControl ItemsSource="{Binding TodoTasks}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="model:TodoTask">
+                        <Border Classes="Task" CornerRadius="10"
+                                Padding="10" Margin="25 25 25 0">
+                            <Grid ColumnDefinitions="Auto, *, Auto">
+                                <CheckBox Grid.Column="0" VerticalAlignment="Top" CornerRadius="20"
+                                          IsChecked="{Binding IsCompleted}"/>
+                                <StackPanel Grid.Column="1" Orientation="Vertical">
+                                    <TextBlock Text="{Binding TaskName}"
+                                               FontSize="25"
+                                               Classes.done="{Binding IsCompleted}"
+                                               FontFamily="{DynamicResource Segoe}"
+                                               Margin="0 -2 0 0"/>
+                                    <TextBlock Text="{Binding Description}"
+                                               IsVisible="{Binding Description, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                               Margin="10"/>
+                                    <TextBlock Text="{Binding CreatedAt}"/>
+                                </StackPanel>
+                                
+                                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                    <Button Content="&#xE3B4;"
+                                            Width="40"
+                                            Height="32"
+                                            FontSize="20"
+                                            VerticalAlignment="Top"
+                                            FontFamily="{DynamicResource PhosphorRegular}"
+                                            CornerRadius="60"
+                                            Click="EditTask"/>
+                                    
+                                    <Button Content="&#xE4A6;"
+                                            Width="40"
+                                            Height="32"
+                                            FontSize="20"
+                                            VerticalAlignment="Top"
+                                            FontFamily="{DynamicResource PhosphorRegular}"
+                                            CornerRadius="60"
+                                            Click="DeleteTask"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        
+        <Border Grid.Row="0" Classes="dialog"
+                IsVisible="{Binding IsNewVisible}">
+            <StackPanel Margin="20" Spacing="10">
+                <TextBlock Text="New Task"/>
+                <TextBox Watermark="Title"
+                         UseFloatingWatermark="True"
+                         Text="{Binding NewTitle}"
+                         MaxLength="100"/>
+                <TextBox Watermark="Description"
+                         UseFloatingWatermark="True"
+                         Text="{Binding NewDescription}"
+                         MaxLength="300"/>
+                <TextBox Watermark="Due Time"
+                         UseFloatingWatermark="True"
+                         Text="{Binding SelectedDateTime}"
+                         Focusable="False"/>
+                <TimePicker HorizontalAlignment="Stretch"
+                            SelectedTime="{Binding SelectedTime}">
+                    <TimePicker.Styles>
+                        <Style Selector="TimePicker /template/ Rectangle">
+                            <Setter Property="Fill" Value="Red"></Setter>
+                        </Style>
+                    </TimePicker.Styles>
+                </TimePicker>
+                <CalendarDatePicker HorizontalAlignment="Stretch"
+                                    Foreground="Red"
+                                    SelectedDate="{Binding SelectedDate}">
+                </CalendarDatePicker>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Add"
+                            Command="{Binding SaveCommand}"
+                            HorizontalAlignment="Right"/>
+                    <Button Content="Cancel" Click="Cancel"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        
+        <Border Grid.Row="0" Classes="dialog"
+                IsVisible="{Binding IsEditVisible}">
+            <StackPanel Margin="20" Spacing="10">
+                <TextBlock Text="Edit Task"/>
+                <TextBox Watermark="Title"
+                         UseFloatingWatermark="True"
+                         Text="{Binding EditTitle}"
+                         MaxLength="100"/>
+                <TextBox Watermark="Description"
+                         UseFloatingWatermark="True"
+                         Text="{Binding EditDescription}"
+                         MaxLength="300"/>
+                <TextBox Watermark="Due Time"
+                         UseFloatingWatermark="True"
+                         Text="{Binding EditDateTime}"
+                         Focusable="False"/>
+                <TimePicker HorizontalAlignment="Stretch"
+                            SelectedTime="{Binding SelectedTime}"/>
+                <CalendarDatePicker HorizontalAlignment="Stretch"
+                                    Foreground="Red"
+                                    SelectedDate="{Binding SelectedDate}">
+                </CalendarDatePicker>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Save"
+                            Command="{Binding EditCommand}"
+                            HorizontalAlignment="Right"/>
+                    <Button Content="Cancel" Click="Cancel"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        
+        <Border Grid.Row="0" Classes="dialog"
+                IsVisible="{Binding IsDeleteVisible}">
+            <StackPanel Orientation="Vertical" Margin="20" Spacing="10">
+                <TextBlock Text="Are you sure you want to delete?"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" Spacing="30" HorizontalAlignment="Center">
+                    <Button Content="Yes" Command="{Binding DeleteCommand}"/>
+                    <Button Content="Cancel" Click="Cancel"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

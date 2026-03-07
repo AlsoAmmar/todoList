@@ -1,0 +1,48 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:ToDoList"
+             x:Class="ToDoList.App"
+             RequestedThemeVariant="Default">
+
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="Styles/Styles.axaml"/>
+    </Application.Styles>
+    
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+            
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="TaskBackground">White</SolidColorBrush>
+                    <SolidColorBrush x:Key="DialogBackground">White</SolidColorBrush>
+                    <SolidColorBrush x:Key="TaskPointerOverBorderBrush">Black</SolidColorBrush>
+                    <SolidColorBrush x:Key="TaskPointerOverBackground">LightGray</SolidColorBrush>
+                </ResourceDictionary>
+
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="TaskBackground">Transparent</SolidColorBrush>
+                    <SolidColorBrush x:Key="DialogBackground">Black</SolidColorBrush>
+                    <SolidColorBrush x:Key="TaskPointerOverBorderBrush">DarkRed</SolidColorBrush>
+                    <SolidColorBrush x:Key="TaskPointerOverBackground">Transparent</SolidColorBrush>
+                </ResourceDictionary>
+            
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+        
+        <FontFamily x:Key="PhosphorRegular">avares://ToDoList/Assets/Fonts#Phosphor</FontFamily>
+        <FontFamily x:Key="NunitoExtraBold">
+            avares://ToDoList/Assets/Fonts#Nunito ExtraBold,
+            avares://ToDoList/Assets/Fonts#Baloo Bhaijaan 2
+        </FontFamily>
+        
+        <FontFamily x:Key="Segoe">
+            avares://ToDoList/Assets/Fonts#Segoe UI Black,
+            avares://ToDoList/Assets/Fonts#Noto Sans Arabic ExtraBold
+        </FontFamily>
+    </Application.Resources>
+</Application>
