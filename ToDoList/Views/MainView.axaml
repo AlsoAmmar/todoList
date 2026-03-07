@@ -99,11 +99,6 @@
                          Focusable="False"/>
                 <TimePicker HorizontalAlignment="Stretch"
                             SelectedTime="{Binding SelectedTime}">
-                    <TimePicker.Styles>
-                        <Style Selector="TimePicker /template/ Rectangle">
-                            <Setter Property="Fill" Value="Red"></Setter>
-                        </Style>
-                    </TimePicker.Styles>
                 </TimePicker>
                 <CalendarDatePicker HorizontalAlignment="Stretch"
                                     Foreground="Red"

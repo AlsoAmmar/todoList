@@ -109,10 +109,18 @@
     <Style Selector="CalendarDatePicker /template/ TextBox#PART_TextBox">
         <Setter Property="TextWrapping" Value="NoWrap"/>
     </Style>
+    
     <Style Selector="Calendar">
         <Setter Property="CornerRadius" Value="10"/>
     </Style>
+    
     <Style Selector="CalendarItem">
         <Setter Property="Foreground" Value="Red"/>
+    </Style>
+    
+    <Style Selector="TimePickerPresenter">
+        <Style.Resources>
+            <SolidColorBrush x:Key="TimePickerFlyoutPresenterHighlightFill" Color="Red" />
+        </Style.Resources>
     </Style>
 </Styles>
