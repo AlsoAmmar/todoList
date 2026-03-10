@@ -130,10 +130,10 @@
                          Text="{Binding EditDateTime}"
                          Focusable="False"/>
                 <TimePicker HorizontalAlignment="Stretch"
-                            SelectedTime="{Binding SelectedTime}"/>
+                            SelectedTime="{Binding EditTime}"/>
                 <CalendarDatePicker HorizontalAlignment="Stretch"
                                     Foreground="Red"
-                                    SelectedDate="{Binding SelectedDate}">
+                                    SelectedDate="{Binding EditDate}">
                 </CalendarDatePicker>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Content="Save"

@@ -18,11 +18,11 @@ public partial class MainViewModel : ViewModelBase
     
     [ObservableProperty] [Required(ErrorMessage = "Title is required")] [NotifyDataErrorInfo] [NoEmoji]
     private string _newTitle;
-    [ObservableProperty]
+    [ObservableProperty] [NotifyDataErrorInfo] [NoEmoji]
     private string _newDescription;
     [ObservableProperty] [Required(ErrorMessage = "Title is required")] [NotifyDataErrorInfo] [NoEmoji]
     private string _editTitle;
-    [ObservableProperty]
+    [ObservableProperty] [NotifyDataErrorInfo] [NoEmoji]
     private string _editDescription;
     [ObservableProperty] [NotifyDataErrorInfo] [DateOutOfRange]
     private DateTime _editDateTime;
@@ -102,6 +102,9 @@ public partial class MainViewModel : ViewModelBase
     [RelayCommand]
     private void NewToggle()
     {
+        SelectedDate = DateTime.Today;
+        SelectedTime = DateTime.Now.TimeOfDay;
+        
         IsNewVisible = true;
     }
 
@@ -110,7 +113,8 @@ public partial class MainViewModel : ViewModelBase
     {
         EditTitle = task.TaskName;
         EditDescription = task.Description;
-        EditDateTime = task.CreatedAtDateTime;
+        EditDate = task.CreatedAtDateTime.Date;
+        EditTime = task.CreatedAtDateTime.TimeOfDay;
         
         IsEditVisible = true;
 
@@ -137,8 +141,8 @@ public partial class MainViewModel : ViewModelBase
         {
             TaskName = NewTitle,
             Description = NewDescription,
-            CreatedAt = SelectedDate.ToString("ddd, d/M/yyyy h:mm tt"),
-            CreatedAtDateTime = SelectedDate,
+            CreatedAt = SelectedDateTime.ToString("ddd, d/M/yyyy h:mm tt"),
+            CreatedAtDateTime = SelectedDateTime,
             IsCompleted = false
         });
         
